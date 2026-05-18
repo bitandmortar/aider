@@ -533,9 +533,66 @@ def gui_main():
         },
     )
 
-    # config_options = st.config._config_options
-    # for key, value in config_options.items():
-    #    print(f"{key}: {value.value}")
+    # Bauhaus V5 Aesthetic Injection (Sovereign Swarm)
+    st.markdown(
+        """
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&family=Roboto+Mono&display=swap');
+            
+            :root {
+                --bauhaus-red: #b51b17;
+                --bauhaus-blue: #2c5ea4;
+                --bauhaus-paper: #fef9eb;
+                --bauhaus-black: #1d1c14;
+            }
+
+            .stApp {
+                background-color: var(--bauhaus-paper) !important;
+                color: var(--bauhaus-black) !important;
+                font-family: 'Inter', sans-serif;
+            }
+
+            .stSidebar {
+                background-color: var(--bauhaus-paper) !important;
+                border-right: 8px solid var(--bauhaus-black) !important;
+            }
+
+            h1, h2, h3 {
+                font-family: 'Inter', sans-serif !important;
+                text-transform: uppercase !important;
+                font-weight: 900 !important;
+                color: var(--bauhaus-black) !important;
+                letter-spacing: -0.05em !important;
+            }
+
+            .stButton>button {
+                background: var(--bauhaus-black) !important;
+                color: var(--bauhaus-paper) !important;
+                border: none !important;
+                border-radius: 0px !important;
+                font-weight: 800 !important;
+                text-transform: uppercase !important;
+                transition: all 0.2s ease !important;
+                box-shadow: 6px 6px 0px rgba(0,0,0,0.2) !important;
+            }
+
+            .stButton>button:hover {
+                background: var(--bauhaus-red) !important;
+                transform: translate(-2px, -2px) !important;
+                box-shadow: 8px 8px 0px var(--bauhaus-black) !important;
+            }
+            
+            /* Mono fonts for code blocks */
+            code, pre {
+                font-family: 'Roboto Mono', monospace !important;
+                background: #e8e4d8 !important;
+                border-left: 8px solid var(--bauhaus-red) !important;
+            }
+        </style>
+        <script src="/inject-aesthetic-global.js"></script>
+        """,
+        unsafe_allow_html=True,
+    )
 
     GUI()
 

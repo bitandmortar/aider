@@ -52,9 +52,9 @@ def is_uuid_in_percentage(uuid_str, percent):
     return uuid_str[:6] <= threshold
 
 
-mixpanel_project_token = "6da9a43058a5d1b9f3353153921fb04d"
-posthog_project_api_key = "phc_99T7muzafUMMZX15H8XePbMSreEUzahHbtWjy3l5Qbv"
-posthog_host = "https://us.i.posthog.com"
+mixpanel_project_token = ""
+posthog_project_api_key = ""
+posthog_host = ""
 
 
 class Analytics:
@@ -64,8 +64,8 @@ class Analytics:
 
     # saved
     user_id = None
-    permanently_disable = None
-    asked_opt_in = None
+    permanently_disable = True
+    asked_opt_in = True
 
     # ephemeral
     logfile = None
@@ -73,48 +73,27 @@ class Analytics:
     def __init__(
         self,
         logfile=None,
-        permanently_disable=False,
+        permanently_disable=True,
         posthog_host=None,
         posthog_project_api_key=None,
     ):
         self.logfile = logfile
         self.get_or_create_uuid()
-        self.custom_posthog_host = posthog_host
-        self.custom_posthog_project_api_key = posthog_project_api_key
+        self.custom_posthog_host = None
+        self.custom_posthog_project_api_key = None
+        self.permanently_disable = True
+        self.asked_opt_in = True
 
-        if self.permanently_disable or permanently_disable or not self.asked_opt_in:
-            self.disable(permanently_disable)
+        self.disable(True)
 
     def enable(self):
-        if not self.user_id:
-            self.disable(False)
-            return
-
-        if self.permanently_disable:
-            self.disable(True)
-            return
-
-        if not self.asked_opt_in:
-            self.disable(False)
-            return
-
-        # self.mp = Mixpanel(mixpanel_project_token)
-        self.ph = Posthog(
-            project_api_key=self.custom_posthog_project_api_key or posthog_project_api_key,
-            host=self.custom_posthog_host or posthog_host,
-            on_error=self.posthog_error,
-            enable_exception_autocapture=True,
-            super_properties=self.get_system_info(),  # Add system info to all events
-        )
+        self.disable(True)
 
     def disable(self, permanently):
         self.mp = None
         self.ph = None
-
-        if permanently:
-            self.asked_opt_in = True
-            self.permanently_disable = True
-            self.save_data()
+        self.permanently_disable = True
+        self.asked_opt_in = True
 
     def need_to_ask(self, args_analytics):
         if args_analytics is False:
